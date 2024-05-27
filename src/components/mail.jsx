@@ -45,105 +45,103 @@ export function Mail({
   const [mail] = useMail()
 
   return (
-    <TooltipProvider delayDuration={0} className="w-full h-full flex">
+    <TooltipProvider delayDuration={0}>
       <ResizablePanelGroup
         direction="horizontal"
         className="h-full w-full"
       >
-        <div className="hidden w-[10px] md:flex md:w-auto ">
-          <ResizablePanel
-            defaultSize={defaultLayout[0]}
-            collapsedSize={navCollapsedSize}
-            collapsible={true}
-            minSize={15}
-            maxSize={20}>
-            <div
-              className={cn(
-                "hidden md:flex h-[52px] items-center justify-center",
-                isCollapsed ? "h-[52px]" : "px-2"
-              )}>
-              <AccountSwitcher isCollapsed={isCollapsed} accounts={accounts} />
-            </div>
-            <Separator />
-            <Nav
-              className="hidden md:flex"
-              isCollapsed={isCollapsed}
-              links={[
-                {
-                  title: "Caixa de entrada",
-                  label: "128",
-                  icon: Inbox,
-                  variant: "default",
-                },
-                {
-                  title: "Com estrela",
-                  label: "9",
-                  icon: Star,
-                  variant: "ghost",
-                },
-                {
-                  title: "Enviados",
-                  label: "",
-                  icon: Send,
-                  variant: "ghost",
-                },
-                {
-                  title: "Span",
-                  label: "23",
-                  icon: ArchiveX,
-                  variant: "ghost",
-                },
-                {
-                  title: "Lixeira",
-                  label: "",
-                  icon: Trash2,
-                  variant: "ghost",
-                },
-                {
-                  title: "Arquivo morto",
-                  label: "",
-                  icon: Archive,
-                  variant: "ghost",
-                },
-              ]}
-            />
-            <Separator />
-            <Nav
-              className="hidden md:flex"
-              isCollapsed={isCollapsed}
-              links={[
-                {
-                  title: "Social",
-                  label: "972",
-                  icon: Users2,
-                  variant: "ghost",
-                },
-                {
-                  title: "Atualizações",
-                  label: "342",
-                  icon: AlertCircle,
-                  variant: "ghost",
-                },
-                {
-                  title: "Fórums",
-                  label: "128",
-                  icon: MessagesSquare,
-                  variant: "ghost",
-                },
-                {
-                  title: "Promoções",
-                  label: "8",
-                  icon: ShoppingCart,
-                  variant: "ghost",
-                },
-              ]}
-            />
-          </ResizablePanel>
-        </div>
+        <ResizablePanel
+          defaultSize={screen.width < 640 ? 0 : defaultLayout[0]}
+          collapsedSize={screen.width < 640 ? 0 : navCollapsedSize}
+          collapsible={true}
+          minSize={15}
+          maxSize={20}>
+          <div
+            className={cn(
+              "hidden md:flex h-[52px] items-center justify-center ",
+              isCollapsed ? "h-[52px]" : "px-2"
+            )}>
+            <AccountSwitcher isCollapsed={isCollapsed} accounts={accounts} />
+          </div>
+          <Separator />
+          <Nav
+            className="hidden md:flex"
+            isCollapsed={isCollapsed}
+            links={[
+              {
+                title: "Caixa de entrada",
+                label: "128",
+                icon: Inbox,
+                variant: "default",
+              },
+              {
+                title: "Com estrela",
+                label: "9",
+                icon: Star,
+                variant: "ghost",
+              },
+              {
+                title: "Enviados",
+                label: "",
+                icon: Send,
+                variant: "ghost",
+              },
+              {
+                title: "Span",
+                label: "23",
+                icon: ArchiveX,
+                variant: "ghost",
+              },
+              {
+                title: "Lixeira",
+                label: "",
+                icon: Trash2,
+                variant: "ghost",
+              },
+              {
+                title: "Arquivo morto",
+                label: "",
+                icon: Archive,
+                variant: "ghost",
+              },
+            ]}
+          />
+          <Separator />
+          <Nav
+            className="hidden md:flex"
+            isCollapsed={isCollapsed}
+            links={[
+              {
+                title: "Social",
+                label: "972",
+                icon: Users2,
+                variant: "ghost",
+              },
+              {
+                title: "Atualizações",
+                label: "342",
+                icon: AlertCircle,
+                variant: "ghost",
+              },
+              {
+                title: "Fórums",
+                label: "128",
+                icon: MessagesSquare,
+                variant: "ghost",
+              },
+              {
+                title: "Promoções",
+                label: "8",
+                icon: ShoppingCart,
+                variant: "ghost",
+              },
+            ]}
+          />
+        </ResizablePanel>
 
         <ResizableHandle withHandle className="hidden md:flex" />
 
-        <ResizablePanel defaultSize={defaultLayout[1]} minSize={30} className="justify-start items-start flex flex-col ">
+        <ResizablePanel defaultSize={screen.width < 640 ? 0 : defaultLayout[1]} minSize={30} className="justify-start items-start flex flex-col ">
           <Sheet className="md:hidden flex">
             <SheetTrigger className="px-4 md:hidden flex flex-row items-start pt-4 justify-start">
               <Button>
@@ -270,7 +268,7 @@ export function Mail({
             </TabsContent>
           </Tabs>
         </ResizablePanel>
-        <ResizableHandle withHandle />
+        <ResizableHandle withHandle className="hidden md:flex" />
         <ResizablePanel defaultSize={defaultLayout[2]} className="md:flex hidden">
           <MailDisplay
             mail={mails.find((item) => item.id === mail.selected) || null}
