@@ -25,17 +25,21 @@ import { Forward } from "lucide-react";
 import { MoreVertical } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Textarea } from '@/components/ui/textarea';
+import { useState } from "react";
 
-export function MailList({ items }) {
+export function MailList({ items, searchMail }) {
   const [mail, setMail] = useMail()
   const today = new Date()
-
 
   return (
     <ScrollArea className="h-[calc(100vh-9rem)]">
       <div className="md:hidden flex-col gap-2 p-4 pt-0 flex">
-        {items.map((item) => (
-          <Sheet>
+        {items.map((item) => {
+          if (!item.name?.toLowerCase().includes(searchMail?.toLowerCase()) && searchMail != "") {
+            return
+          }
+
+          return <Sheet key={item.id}>
             <SheetTrigger asChild>
               <button
                 key={item.id}
@@ -291,11 +295,14 @@ export function MailList({ items }) {
               </SheetFooter>
             </SheetContent>
           </Sheet>
-        ))}
+        })}
       </div>
       <div className="flex-col gap-2 p-4 pt-0 md:flex hidden">
-        {items.map((item) => (
-          <button
+        {items.map((item) => {
+          if (!item.name?.toLowerCase().includes(searchMail?.toLowerCase()) && searchMail != "" && searchMail != undefined) {
+            return
+          }
+          return <button
             key={item.id}
             className={cn(
               "flex flex-col items-start gap-2 rounded-lg border p-3 text-left text-sm transition-all hover:bg-accent",
@@ -344,7 +351,7 @@ export function MailList({ items }) {
               </div>
             ) : null}
           </button>
-        ))}
+        })}
       </div>
     </ScrollArea >
   )

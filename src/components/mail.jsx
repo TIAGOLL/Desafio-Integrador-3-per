@@ -43,6 +43,7 @@ export function Mail({
 }) {
   const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed)
   const [mail] = useMail()
+  const [search, setSearch] = React.useState("")
 
   return (
     <TooltipProvider delayDuration={0}>
@@ -256,15 +257,15 @@ export function Mail({
               <form>
                 <div className="relative">
                   <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <Input placeholder="Search" className="pl-8" />
+                  <Input placeholder="Pesquisar..." className="pl-8" onChange={(e) => setSearch(e.target.value)} />
                 </div>
               </form>
             </div>
             <TabsContent value="all" className="m-0">
-              <MailList items={mails} />
+              <MailList items={mails} searchMail={search} />
             </TabsContent>
             <TabsContent value="unread" className="m-0">
-              <MailList items={mails.filter((item) => !item.read)} />
+              <MailList items={mails.filter((item) => !item.read)} searchMail={search} />
             </TabsContent>
           </Tabs>
         </ResizablePanel>
