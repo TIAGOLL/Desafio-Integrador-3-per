@@ -22,9 +22,16 @@ import { Calendar } from "lucide-react"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
+import { Headphones } from "lucide-react"
 
 export function MailDisplay({ mail }) {
   const today = new Date()
+  function speakText(text) {
+    return () => {
+      const utterance = new SpeechSynthesisUtterance(text)
+      speechSynthesis.speak(utterance)
+    }
+  }
 
   return (
     <div className="flex h-full flex-col">
@@ -184,11 +191,18 @@ export function MailDisplay({ mail }) {
                 </div>
               </div>
             </div>
-            {mail.date && (
-              <div className="ml-auto text-xs text-muted-foreground">
-                {format(new Date(mail.date), "PPpp")}
-              </div>
-            )}
+            <div className="ml-auto flex flex-col items-center gap-2">
+              {mail.date && (
+                <div className="ml-auto text-xs text-muted-foreground">
+                  {format(new Date(mail.date), "PPpp")}
+                </div>
+              )}
+              <Button variant="outline" onClick={speakText(mail.text)}>
+                <Headphones className="w-4 h-4 mr-1" />
+                Ouvir texto
+              </Button>
+            </div>
+
           </div>
           <Separator />
           <div className="flex-1 whitespace-pre-wrap p-4 text-sm">
@@ -224,7 +238,8 @@ export function MailDisplay({ mail }) {
         <div className="p-8 text-center text-muted-foreground">
           Nenhuma mensagem selecionada
         </div>
-      )}
-    </div>
+      )
+      }
+    </div >
   )
 }
