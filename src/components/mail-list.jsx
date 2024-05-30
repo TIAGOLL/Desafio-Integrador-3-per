@@ -26,11 +26,17 @@ import { MoreVertical } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Textarea } from '@/components/ui/textarea';
 import { useState } from "react";
+import { Headphones } from "lucide-react";
 
 export function MailList({ items, searchMail }) {
   const [mail, setMail] = useMail()
   const today = new Date()
-
+  function speakText(text) {
+    return () => {
+      const utterance = new SpeechSynthesisUtterance(text)
+      speechSynthesis.speak(utterance)
+    }
+  }
   return (
     <ScrollArea className="h-[calc(100vh-9rem)]">
       <div className="md:hidden flex-col gap-2 p-4 pt-0 flex">
@@ -92,8 +98,8 @@ export function MailList({ items, searchMail }) {
               </button>
             </SheetTrigger>
             <SheetContent>
-              <div className="flex items-center p-2">
-                <SheetHeader className="flex flex-row justify-center items-center">
+              <div className="flex items-center p-2 justify-center">
+                <SheetHeader className="flex flex-col justify-center items-center">
                   <div className="flex items-center gap-2">
                     <Tooltip>
                       <TooltipTrigger asChild>
@@ -122,7 +128,6 @@ export function MailList({ items, searchMail }) {
                       </TooltipTrigger>
                       <TooltipContent>Apagar</TooltipContent>
                     </Tooltip>
-                    <Separator orientation="vertical" className="mx-1 h-6" />
                     <Tooltip>
                       <Popover>
                         <PopoverTrigger asChild>
@@ -211,21 +216,20 @@ export function MailList({ items, searchMail }) {
                       </TooltipTrigger>
                       <TooltipContent>Encaminhar</TooltipContent>
                     </Tooltip>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon" disabled={!mail}>
+                          <MoreVertical className="h-4 w-4" />
+                          <span className="sr-only">Mais</span>
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem>Marcar como não lida</DropdownMenuItem>
+                        <DropdownMenuItem>Adicionar rótulo</DropdownMenuItem>
+                        <DropdownMenuItem>Ignorar tópico</DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </div>
-                  <Separator orientation="vertical" className="mx-2 h-6" />
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon" disabled={!mail}>
-                        <MoreVertical className="h-4 w-4" />
-                        <span className="sr-only">Mais</span>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>Marcar como não lida</DropdownMenuItem>
-                      <DropdownMenuItem>Adicionar rótulo</DropdownMenuItem>
-                      <DropdownMenuItem>Ignorar tópico</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
                 </SheetHeader>
               </div>
               <Separator />
@@ -261,6 +265,10 @@ export function MailList({ items, searchMail }) {
                     {item.text}
                   </div>
                   <Separator className="mt-auto" />
+                  <Button variant="outline" className="flex md:hidden mt-auto w-full" onClick={() => speakText(item.text)}>
+                    <Headphones className="w-4 h-4 mr-1" />
+                    Ouvir texto
+                  </Button>
                 </div>
               ) : (
                 <div className="p-8 text-center text-muted-foreground">
@@ -275,7 +283,7 @@ export function MailList({ items, searchMail }) {
                         className="p-4"
                         placeholder={`Reponder ${item.name}...`}
                       />
-                      <div className="flex items-center">
+                      <div className="flex items-center flex-col h-auto">
                         <Label
                           htmlFor="mute"
                           className="flex items-center gap-2 text-xs font-normal"
