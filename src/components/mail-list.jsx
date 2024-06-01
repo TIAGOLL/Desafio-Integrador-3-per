@@ -265,10 +265,10 @@ export function MailList({ items, searchMail }) {
                     {item.text}
                   </div>
                   <Separator className="mt-auto" />
-                  <Button variant="outline" className="flex md:hidden mt-auto w-full" onClick={() => speakText(item.text)}>
-                    <Headphones className="w-4 h-4 mr-1" />
-                    Ouvir texto
-                  </Button>
+                  {/* <Button variant="outline" className="flex md:hidden mt-auto w-full" onClick={() => speakText(item.text)}> */}
+                  {/* <Headphones className="w-4 h-4 mr-1" /> */}
+                  {/* Ouvir texto */}
+                  {/* </Button> */}
                 </div>
               ) : (
                 <div className="p-8 text-center text-muted-foreground">
